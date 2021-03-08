@@ -6,16 +6,21 @@ export class CountdownTimer {
   }
 
   start() {
-    const homeWorkDeadline = this.targetDate.getTime(); // Set the date we're counting down to
+    this.createTimer();
 
     //Update the count down every 1 second
     setInterval(() => {
-      const currentDate = new Date().getTime(); // time when function will be called
-      const deltaTime = homeWorkDeadline - currentDate; // difference between now and the target date
-      const time = this.getTimeComponents(deltaTime); // result of function executing -> object
-      deltaTime > 0 ? time : this.timeIsOver();
-      this.onTick(time);
+      this.createTimer();
     }, 1000);
+  }
+
+  createTimer() {
+    const deadlineDate = this.targetDate.getTime(); // Set the date we're counting down to
+    const currentDate = new Date().getTime(); // time when function will be called
+    const deltaTime = deadlineDate - currentDate; // difference between now and the target date
+    const time = this.getTimerComponents(deltaTime); // result of function executing -> object
+    deltaTime > 0 ? time : this.timeIsOver();
+    this.onTick(time);
   }
 
   // Function takes a numder, returns a string and adds 0 to the beginning if the number consists of less than 2 character
@@ -24,7 +29,7 @@ export class CountdownTimer {
   }
 
   // Time calculations for days, hours, minutes and seconds
-  getTimeComponents(deltaTime) {
+  getTimerComponents(deltaTime) {
     const days = this.pad(Math.floor(deltaTime / (1000 * 60 * 60 * 24)));
     const hours = this.pad(
       Math.floor((deltaTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
